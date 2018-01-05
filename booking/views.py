@@ -3,7 +3,10 @@ from django.shortcuts import render
 from rest_framework import generics, mixins
 
 from booking.models import Booking
-from booking.serializers import BookingSerializer
+from booking.serializers import (
+	BookingSerializer,
+	BookingCreateSerializer
+)
 from booking.permissions import IsOwnerOrAdmin
 
 
@@ -12,23 +15,26 @@ class BookingListView(generics.ListAPIView):
 	# TODO: add permissions. Only user can view its listings or an admin
 	lookup_field = 'pk'
 	serializer_class = BookingSerializer
+	permission_classes = [IsOwnerOrAdmin]
+	queryset = Booking.objects.all()
 
-	def get_queryset(self):
-		user = self.request.user
-		if user.is_staff:
-			qs = Booking.objects.all()
-		else:
-			qs = Booking.objects.filter(user=user)
-		return qs
+	# def get_queryset(self):
+	# 	user = self.request.user
+	# 	if user.is_staff:
+	# 		qs = Booking.objects.all()
+	# 	else:
+	# 		qs = Booking.objects.filter(user=user)
+	# 	return qs
 
 
 class BookingCreateView(generics.CreateAPIView):
 	lookup_field = 'pk'
-	serializer_class = BookingSerializer
+	serializer_class = BookingCreateSerializer
 	# permission_classes = []
 
 	def preform_create(self, serializer):
-		serializer.save(user=self.request.user)
+		print(serializer)
+		serializer.save(user=self.request.use)
 
 	def post(self, request, *args, **kwargs):
 		return self.create(request, *args, **kwargs)

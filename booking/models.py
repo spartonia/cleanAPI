@@ -10,7 +10,7 @@ from main.models import BookableSlot
 class Booking(models.Model):
 	# TODO: Update user field on submit and create a new profile, if the user is not signed in.
 	# TODO: Extend user (one-to_one) to have a profile w/ other info
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	zipcode = models.CharField(max_length=15)
 	address = models.CharField(max_length=50)
 	area = models.PositiveIntegerField()
@@ -25,3 +25,6 @@ class Booking(models.Model):
 
 	def __str__(self):
 		return str("%s, %s" % (self.zipcode, self.area))
+
+	def get_serializer_context(self):
+		return {'request': self.request}
