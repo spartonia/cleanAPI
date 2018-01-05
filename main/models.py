@@ -33,4 +33,4 @@ class BookableSlot(models.Model):
 	price = models.IntegerField(default=40)
 
 	def __str__(self):
-		return str( "%s, %s" % (self.firm, self.service))
+		return str( "%s, %s, %s" % (self.firm, self.service, self.date))

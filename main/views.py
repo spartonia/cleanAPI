@@ -1,6 +1,12 @@
 from django.shortcuts import render
 from django.db.models import Q
 from rest_framework import generics, mixins
+from rest_framework.permissions import (
+	AllowAny,
+	IsAdminUser,
+	IsAuthenticated,
+	IsAuthenticatedOrReadOnly,
+)
 
 from main.models import Firm, Service, BookableSlot
 # from main.permissions import IsOwnerOrReadOnly
