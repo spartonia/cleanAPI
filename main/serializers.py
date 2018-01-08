@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from main.models import Firm, Service, BookableSlot
 
+# TDOD fix permissions 
 
 class FirmSerializer(serializers.ModelSerializer):
 	url = serializers.SerializerMethodField(read_only=True)

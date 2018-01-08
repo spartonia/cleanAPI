@@ -9,7 +9,6 @@ class BookingSerializer(serializers.ModelSerializer):
 		model = Booking
 		fields = [
 			'id',
-			'user',
 			'zipcode',
 			'address',
 			'area',
