@@ -9,11 +9,14 @@ from rest_framework.permissions import (
 )
 
 from main.models import Firm, Service, BookableSlot
-# from main.permissions import IsOwnerOrReadOnly
 from main.serializers import ( 
 	FirmSerializer, 
 	ServiceSerializer, 
 	BookableSlotSerializer
+)
+from permissions import (
+	IsAdminOrReadOnly,
+	IsOwnerOrReadOnly
 )
 
 
@@ -21,6 +24,8 @@ from main.serializers import (
 class FirmAPIView(generics.ListAPIView):
 	lookup_field = 'pk'
 	serializer_class = FirmSerializer
+	permission_classes = [IsAdminOrReadOnly]
+
 	# queryset = Firm.objects.all()
 	
 	def get_queryset(self):
@@ -41,7 +46,7 @@ class FirmAPIView(generics.ListAPIView):
 class FrimRetrieveView(generics.RetrieveAPIView):
 	lookup_field = 'pk'
 	serializer_class = FirmSerializer
-	# permission_classes = [IsOwnerOrReadOnly]
+	permission_classes = [IsAdminOrReadOnly]
 	queryset = Firm.objects.all()
 
 	def get_serializer_context(self, *args, **kwargs):
@@ -75,6 +80,7 @@ class ServiceRetrieveView(generics.RetrieveAPIView):
 class BookableSlotAPIView(generics.ListAPIView):
 	lookup_field = 'pk'
 	serializer_class = BookableSlotSerializer
+	permission_classes = [IsAdminOrReadOnly]
 	queryset = BookableSlot.objects.all()
 
 	def get_serializer_context(self, *args, **kwargs):
@@ -84,7 +90,7 @@ class BookableSlotAPIView(generics.ListAPIView):
 class BookbleSlotRetrieveView(generics.RetrieveAPIView):
 	lookup_field = 'pk'
 	serializer_class = BookableSlotSerializer
-	# permission_classes = [IsOwnerOrReadOnly]
+	permission_classes = [IsAdminOrReadOnly]
 	queryset = BookableSlot.objects.all()
 
 	def get_serializer_context(self, *args, **kwargs):

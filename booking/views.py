@@ -7,12 +7,11 @@ from booking.serializers import (
 	BookingSerializer,
 	BookingCreateSerializer
 )
-from booking.permissions import IsOwnerOrAdmin
+
+from permissions import IsOwnerOrAdmin
 
 
 class BookingListView(generics.ListAPIView):
-# class BookingAPIView(generics.ListAPIView):
-	# TODO: add permissions. Only user can view its listings or an admin
 	lookup_field = 'pk'
 	serializer_class = BookingSerializer
 	permission_classes = [IsOwnerOrAdmin]
@@ -44,13 +43,13 @@ class BookingRudView(generics.RetrieveUpdateDestroyAPIView):
 	lookup_field = 'pk'
 	serializer_class = BookingSerializer
 	permission_classes = [IsOwnerOrAdmin]
-	# queryset = Booking.objects.all()
+	queryset = Booking.objects.all()
 
-	def get_queryset(self):
+	# def get_queryset(self):
 		# user = self.request.user
 		# if user.is_staff:
 		# 	qs = Booking.objects.all()
 		# else:
 		# 	qs = Booking.objects.filter(user=user)
-		qs = Booking.objects.all()
-		return qs
+		# qs = Booking.objects.all()
+		# return qs
