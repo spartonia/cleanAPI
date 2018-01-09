@@ -18,6 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r"^account/", include("account.urls")),
     url(r'^api/main/', include('main.urls', namespace='api-main')),
     url(r'^api/booking/', include('booking.urls', namespace='api-booking')),
 ]
