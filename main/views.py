@@ -81,7 +81,11 @@ class BookableSlotAPIView(generics.ListAPIView):
 	lookup_field = 'pk'
 	serializer_class = BookableSlotSerializer
 	permission_classes = [IsAdminOrReadOnly]
-	queryset = BookableSlot.objects.all()
+
+	def get_queryset(self):
+		qs = BookableSlot.objects.filter(
+			booking__isnull=True)
+		return qs
 
 	def get_serializer_context(self, *args, **kwargs):
 		return {'request': self.request}
