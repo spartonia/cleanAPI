@@ -85,6 +85,14 @@ class BookableSlotAPIView(generics.ListAPIView):
 	def get_queryset(self):
 		qs = BookableSlot.objects.filter(
 			booking__isnull=True)
+		date = self.request.query_params.get('date')
+		service = self.request.query_params.get('service')
+		if date is None and service is None:
+			return None
+		if date is not None:
+			qs = qs.filter(date=date)
+		if service is not None:
+			qs = qs.filter(service=service)
 		return qs
 
 	def get_serializer_context(self, *args, **kwargs):
