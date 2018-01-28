@@ -35,6 +35,7 @@ class BookingCreateSerializer(serializers.ModelSerializer):
 
 	email = serializers.EmailField(write_only=True)
 	name = serializers.CharField(write_only=True)
+	personal_number = serializers.CharField(write_only=True)
 
 	class Meta:
 		model = Booking
@@ -48,6 +49,7 @@ class BookingCreateSerializer(serializers.ModelSerializer):
 			'booking_slot',
 			'email',
 			'name',
+			'personal_number',
 		]
 		read_only_field = ['id']
 		# extra_kwargs = {''}
@@ -63,16 +65,16 @@ class BookingCreateSerializer(serializers.ModelSerializer):
 		return value
 
 	def create(self, validated_data):
-		# TODO: create/update a Profile object
-		# person, created = Person.objects.get_or_create(identifier=id)
-		email=validated_data.pop('email')
-		first_name=validated_data.pop('name')
+		email = validated_data.pop('email')
+		first_name = validated_data.pop('name')
+		personal_number = validated_data.pop('personal_number')
 		user_obj, created = User.objects.get_or_create(
 			email=email
 		)
 		if created:
 			user_obj.username = email
 			user_obj.first_name = first_name
+			user_obj.profile.personal_number = personal_number
 			user_obj.save()
 		# print(validated_data)
 		booking = Booking(user=user_obj, **validated_data)
