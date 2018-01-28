@@ -88,7 +88,7 @@ class BookableSlotAPIView(generics.ListAPIView):
 		date = self.request.query_params.get('date')
 		service = self.request.query_params.get('service')
 		if date is None and service is None:
-			return None
+			return []
 		if date is not None:
 			qs = qs.filter(date=date)
 		if service is not None:
