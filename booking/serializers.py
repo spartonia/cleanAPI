@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from booking.models import Booking
+from main.models import BookableSlot
 
 User = get_user_model()
 
@@ -26,6 +27,12 @@ class BookingSerializer(serializers.ModelSerializer):
 
 class BookingCreateSerializer(serializers.ModelSerializer):
 	"""Serializer for Booking class"""
+
+	def __init__(self, *args, **kwargs):
+		super(BookingCreateSerializer, self).__init__(*args, **kwargs)
+		self.fields['booking_slot'].queryset = BookableSlot.objects.filter(
+			booking__isnull=True)
+
 	email = serializers.EmailField(write_only=True)
 	name = serializers.CharField(write_only=True)
 
@@ -55,11 +62,11 @@ class BookingCreateSerializer(serializers.ModelSerializer):
 			raise serializers.ValidationError("Please provide a valid zipcode.")
 		return value
 
-	def create(self, validated_date):
+	def create(self, validated_data):
 		# TODO: create/update a Profile object
 		# person, created = Person.objects.get_or_create(identifier=id)
-		email=validated_date.pop('email')
-		first_name=validated_date.pop('name')
+		email=validated_data.pop('email')
+		first_name=validated_data.pop('name')
 		user_obj, created = User.objects.get_or_create(
 			email=email
 		)
@@ -67,8 +74,8 @@ class BookingCreateSerializer(serializers.ModelSerializer):
 			user_obj.username = email
 			user_obj.first_name = first_name
 			user_obj.save()
-
-		booking = Booking(**validated_date, user=user_obj)
+		# print(validated_data)
+		booking = Booking(user=user_obj, **validated_data)
 		booking.save()
 
 		return booking

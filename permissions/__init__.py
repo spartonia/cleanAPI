@@ -50,4 +50,6 @@ class IsOwnerOrAdminOrReadOnly(BasePermission):
 class IsOwnerOrAdmin(BasePermission):
     def has_object_permission(self, request, view, obj):
         user = request.user
+        print('*' * 40)
+        print(user)
         return user.is_staff or obj.user == user

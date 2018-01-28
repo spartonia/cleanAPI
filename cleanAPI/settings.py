@@ -35,14 +35,12 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
     'rest_framework',
     'main',
     'booking',
-    'account',
 ]
 
 MIDDLEWARE = [
@@ -54,8 +52,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'account.middleware.LocaleMiddleware',
-    'account.middleware.TimezoneMiddleware',
 ]
 
 ROOT_URLCONF = 'cleanAPI.urls'
@@ -71,7 +67,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'account.context_processors.account',
             ],
         },
     },
